@@ -1,0 +1,27 @@
+{
+  "name": "all-employees",
+  "version": "1.0.0",
+  "description": "Track employees",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CL2731/tracker.git"
+  },
+  "author": "Caitlin Lindauer",
+  "license": "ISC",
+  "dependencies": {
+
+    "asciiart-logo": "^0.2.6",
+    "console.table": "^0.10.0",
+    "inquirer": "^7.0.0",
+    "mysql": "^2.17.1"
+  },
+  "bugs": {
+    "url": "https://github.com/CL2731/tracker/issues"
+  },
+  "homepage": "https://github.com/CL2731/tracker#readme"
+}
