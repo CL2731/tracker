@@ -1,4 +1,6 @@
 const { prompt } = require('inquirer');
+const { syncBuiltinESMExports } = require('module');
+const { listenerCount } = require('process');
 const { inherits } = require('util');
 const db = require('./db');
 require('console.table');
@@ -178,4 +180,138 @@ async function addRole() {
      employee.manager_id = managerId;
      await db.createEmployee(employee);
      loadMainPrompts();
+ }
+
+ async function removeDepartment() {
+     const departments = await db.findAllDepartments();
+     const departmentChoices = departments.map(({
+         id, name
+     }) => ({
+         name: name,
+         value: id
+     }));
+     const {departmentId} = await prompt({
+         type: 'list',
+         name: 'department_id',
+         message: 'What department do you want to remove?',
+         choices: departmentChoices
+     });
+     await db.removeDepartment(departmentId);
+     loadMainPrompts();
+ }
+
+ async function removeRole(){
+     const roles = await db.findAllRoles();
+     const roleChoices = role.map(({
+         id, title
+     }) => ({
+         name: title,
+         value: id
+     }));
+     const {roleId} = await prompt ([
+         {
+             type: 'list',
+             name: 'roleId',
+             message: 'What role do you wish to remove?',
+             choices: roleChoices
+         }
+     ]);
+     await db.removeRole(roleId);
+     loadMainPrompts();
+ }
+
+ async function removeEmployee() {
+     const employees = await db.findAllEmployees();
+     const employeeChoices = employees.map(({
+         id, first_name, last_name
+     }) => ({
+         name: `${first_name} ${last_name}`,
+         value: id
+     }));
+     const {employeeId} = await prompt ([
+         {
+             type: 'list',
+             name: 'employeeId',
+             message: 'What employee do you want to remove?',
+             choices: employeeChoices
+         }
+     ]);
+     await db.removeEmployee(employeeId);
+     loadMainPrompts();
+ }
+
+ async function updateRole() {
+     const employees = await db.findAllEmployees();
+     const employeeChoices = employees.map(({
+         id, first_name, last_name
+     }) => ({
+         name: `${first_name} ${last_name}`,
+         value: id
+     }));
+     const {employeeId} = await prompt ([
+         {
+             type: 'list',
+             name: 'employeeId',
+             message: 'Which employee would you like to update?',
+             choices: employeeChoices
+         }
+     ]);
+     const roles = await db.findAllRoles();
+     const roleChoices = roles.map((
+         {
+             id, title
+         }
+     ) => ({
+         name: title,
+         value: id
+     }));
+     const {roleId} = await ([
+         {
+             type: 'list',
+             name: 'roleId',
+             message: 'Which role whould you like to udate?',
+             choices: roleChoices
+         }
+     ]);
+     await db.updateRole(employeeId, roleId);
+     loadMainPrompts();
+ }
+
+ async function updateManager() {
+     const employee = await db.findAllEmployees();
+     const employeeChoices = employee.map(({
+         id, first_name, last_name
+     }) => ({
+         name: `${first_name} ${last_name}`,
+         value: id
+     }));
+     const {employeeId} = await prompt([
+         {
+         type: 'list',
+         name: 'employeeId',
+         message: 'What manager do you want to update?',
+         choices: employeeChoices
+        }
+]);
+    const managers = await db.findAllManagers(employeeId);
+    const managerChoices = managers.map(({
+        id, first_name, last_name
+    }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+    }));
+    const {managerId} = await prompt ([
+        {
+            type: 'list',
+            name: 'manager_id',
+            message: 'Who will be the new manager for the employee?',
+            choices: managerChoices
+        }
+    ]);
+    await db.updateManager(employeeId, managerId);
+    loadMainPrompts();
+ }
+
+ const quit = () => {
+     process.exit();
  }
