@@ -97,12 +97,12 @@ const loadMainPrompts = async () => {
 }
 
 async function viewDepartment() {
-    const departments = await db.findAllDepartments(department);
-    console.table(departments);
+    const department = await db.findAllDepartments();
+    console.table(department);
     loadMainPrompts();
 }
 async function viewRoles() {
-    const roles = await db.findAllRole();
+    const roles = await db.findAllRoles();
     console.table(roles);
     loadMainPrompts();
 }
@@ -123,12 +123,12 @@ async function addDepartment() {
     loadMainPrompts();
 }
 async function addRole() {
-    const departments = await db.findAllDepartments();
-    const departmentChoices = departments.map(({id, name}) => ({
+    const department = await db.findAllDepartments();
+    const departmentChoices = department.map(({id, name}) => ({
         name: name,
         value: id
     }));
-    const role = await prompt([
+    const roles = await prompt([
         {
             name: 'Title',
             message: 'What is the name of the new role?',
@@ -140,7 +140,7 @@ async function addRole() {
             choices: departmentChoices
         }
     ]);
-    await db.createRole(role);
+    await db.createRole(roles);
     loadMainPrompts();
 }
  async function addEmployee() {
@@ -184,8 +184,8 @@ async function addRole() {
  }
 
  async function removeDepartment() {
-     const departments = await db.findAllDepartments();
-     const departmentChoices = departments.map(({
+     const department = await db.findAllDepartments();
+     const departmentChoices = department.map(({
          id, name
      }) => ({
          name: name,
@@ -203,7 +203,7 @@ async function addRole() {
 
  async function removeRole(){
      const roles = await db.findAllRoles();
-     const roleChoices = role.map(({
+     const roleChoices = roles.map(({
          id, title
      }) => ({
          name: title,
