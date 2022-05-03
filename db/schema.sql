@@ -3,24 +3,35 @@ CREATE DATABASE employee;
 
 USE employee;
 
+CREATE TABLE manager (
+  id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE department (
-  id INT UNASSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  name UNIQUE NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(30),
+  PRIMARY KEY (id)
 );
 
-CREATE TABLE employees (
-  id INT UNASSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  first_name NOT NULL,
-  last_name NOT NULL,
-  role_id NOT NULL,
-  manager_id UNASSIGNED NOT NULL,
-  (id) ON DELETE SET NULL
+CREATE TABLE roles (
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(30),
+    department_id INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
-CREATE TABLE role (
-    id INT UNASSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    title UNIQUE NOT NULL,
-    department_id UNIQUE NOT NULL,
-    department(id) ON DELETE SET NULL
+CREATE TABLE employee (
+  id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  role_id INT,
+  manager_id INT,
+  PRIMARY KEY (id),
+  FOREIGN KEY (role_id) REFERENCES roles(id),
+  FOREIGN KEY (manager_id) REFERENCES roles(id)
 );
 
