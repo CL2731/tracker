@@ -5,10 +5,11 @@ const { inherits } = require('util');
 const db = require('./db');
 require('console.table');
 
-init();
+
 const init = () => {
     loadMainPrompts();
 }
+
 const loadMainPrompts = async () => {
     const { choices } = await prompt([
         {
@@ -96,7 +97,7 @@ const loadMainPrompts = async () => {
 }
 
 async function viewDepartment() {
-    const departments = await db.findAllDepartments();
+    const departments = await db.findAllDepartments(department);
     console.table(departments);
     loadMainPrompts();
 }
@@ -315,3 +316,5 @@ async function addRole() {
  const quit = () => {
      process.exit();
  }
+ 
+ init();
