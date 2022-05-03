@@ -19,5 +19,8 @@ CREATE TABLE employees (
 
 CREATE TABLE role (
     id INT UNASSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    
-)
+    title UNIQUE NOT NULL,
+    department_id UNIQUE NOT NULL,
+    department(id) ON DELETE SET NULL
+);
+
